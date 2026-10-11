@@ -126,3 +126,4 @@ button.link, label.link { border: none; background: none; padding: 0; color: var
 .set-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin: 10px 0; }
 .set-actions { display: flex; gap: 8px; align-items: center; }
 .abacus:not(:focus-visible) .rod-selected { display: none; }
+.hint { margin: 4px 0 0; padding-left: 20px; color: var(--ghost); }

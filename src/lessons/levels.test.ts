@@ -22,6 +22,19 @@ describe('lesson content', () => {
     }
   });
 
+  it('demos in a level with a target technique actually use it', () => {
+    for (const level of LEVELS) {
+      const required = new Set(level.practice.flatMap((p) => (p.spec.kind === 'addsub' ? p.spec.require ?? [] : [])));
+      if (required.size === 0) continue;
+      for (const block of level.learn) {
+        if (block.type !== 'demo') continue;
+        const spec = { ...SOROBAN, rods: block.rods ?? SOROBAN.rods };
+        const used = [...solveAddSub(spec, emptyState(spec), block.terms).techniques];
+        expect(used.some((t) => required.has(t)), `${level.id}: ${block.title}`).toBe(true);
+      }
+    }
+  });
+
   it('every add/sub practice set can generate problems that fit its frame', () => {
     const rng = seededRng(3);
     for (const level of LEVELS) {

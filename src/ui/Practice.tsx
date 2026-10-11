@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from 'preact/hooks';
 import type { JSX } from 'preact';
-import { type AbacusState, SOROBAN, isCanonicalDecimal, setNumber, statesEqual, valueOf } from '../model/frame';
+import { type AbacusState, SOROBAN, defaultUnitRod, isCanonicalDecimal, setNumber, statesEqual, valueOf } from '../model/frame';
 import { solveAddSub } from '../solver/addsub';
+import { describeOp } from '../solver/describe';
 import { type Rng, generateAddSub, randInt, randomNumber, seededRng } from '../solver/generate';
 import type { PracticeSet } from '../lessons/types';
 import { type Attempt, type Progress, recordAttempts, saveProgress, summarize } from '../progress';
@@ -12,7 +13,7 @@ import { useAbacus } from './useAbacus';
 type Problem =
   | { kind: 'set'; n: number; showValues: boolean }
   | { kind: 'read'; n: number; state: AbacusState }
-  | { kind: 'addsub'; terms: number[]; answer: number; checkpoints: AbacusState[] };
+  | { kind: 'addsub'; terms: number[]; answer: number; checkpoints: AbacusState[]; hints: string[][] };
 
 function makeProblem(set: PracticeSet, rng: Rng): Problem {
   const spec = { ...SOROBAN, rods: set.rods ?? SOROBAN.rods };
@@ -27,7 +28,13 @@ function makeProblem(set: PracticeSet, rng: Rng): Problem {
     case 'addsub': {
       const p = generateAddSub(spec, s, rng);
       const sol = solveAddSub(spec, setNumber(spec, 0), p.terms);
-      return { kind: 'addsub', terms: p.terms, answer: p.answer, checkpoints: sol.steps.map((st) => st.stateAfter) };
+      return {
+        kind: 'addsub',
+        terms: p.terms,
+        answer: p.answer,
+        checkpoints: sol.steps.map((st) => st.stateAfter),
+        hints: sol.steps.map((st) => st.ops.map((op) => describeOp(op, defaultUnitRod(spec)))),
+      };
     }
   }
 }
@@ -204,6 +211,13 @@ export function Practice(props: { set: PracticeSet; progress: Progress; onProgre
             ghost={showHint ? problem.checkpoints[Math.min(reached + 1, problem.checkpoints.length - 1)] : undefined}
             showValues={!!feedback}
           />
+          {showHint && !feedback && (
+            <ul class="hint">
+              {problem.hints[Math.min(reached + 1, problem.hints.length - 1)].map((h, k) => (
+                <li key={k}>{h}</li>
+              ))}
+            </ul>
+          )}
         </>
       )}
 

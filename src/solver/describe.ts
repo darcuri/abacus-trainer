@@ -17,7 +17,7 @@ export function describeOp(op: DigitOp, unitRod: number): string {
   const c = 10 - op.digit;
   if (op.cause === 'carry') return `Carry 1 into the ${rod} rod`;
   if (op.cause === 'borrow') return `Borrow 1 from the ${rod} rod`;
-  const head = `${capitalize(rod)} rod: ${op.op}${op.digit}`;
+  const head = `${capitalize(rod)} rod: ${op.op === '-' ? '−' : '+'}${op.digit}`;
   switch (op.technique) {
     case 'direct':
       return `${head}, directly`;

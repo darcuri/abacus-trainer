@@ -34,7 +34,7 @@ export interface AddSubParams {
   digits: [number, number];
   /** Number of terms including the first. */
   terms: number;
-  /** Chance each term after the first is a subtraction. 0 means addition only. */
+  /** Chance each term after the first is a subtraction. 0 means addition only, 1 means every later term subtracts. */
   subtractChance: number;
   /** Techniques a problem may use. */
   allowed: readonly Technique[];
@@ -53,12 +53,16 @@ export class GenerationError extends Error {}
 export function generateAddSub(spec: FrameSpec, params: AddSubParams, rng: Rng, maxTries = 20000): AddSubProblem {
   const allowed = new Set(params.allowed);
   const require = params.require ?? [];
-  for (let attempt = 0; attempt < maxTries; attempt++) {
+  attempts: for (let attempt = 0; attempt < maxTries; attempt++) {
     const terms: number[] = [];
     let total = 0;
     for (let i = 0; i < params.terms; i++) {
       let n = randomNumber(rng, randInt(rng, params.digits[0], params.digits[1]));
-      if (i > 0 && rng() < params.subtractChance && n <= total) n = -n;
+      if (i > 0 && rng() < params.subtractChance) {
+        // Reject rather than flip to addition, so the subtraction rate is what was asked for.
+        if (n > total) continue attempts;
+        n = -n;
+      }
       terms.push(n);
       total += n;
     }

@@ -47,7 +47,7 @@ export function App(): JSX.Element {
               </li>
             );
           })}
-          <li class="muted soon">3 to 9: complements, multiplication, division (coming)</li>
+          <li class="muted soon">4 to 9: ten-complements, multiplication, division (coming)</li>
         </ol>
         <a class={`play-link ${route.page === 'play' ? 'active' : ''}`} href="#/play">Free play</a>
         <ProgressTools onImport={setProgress} />

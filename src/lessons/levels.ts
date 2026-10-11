@@ -84,4 +84,33 @@ export const LEVELS: Level[] = [
       { id: 'direct-mix-3', title: 'Add and subtract, four 2 to 3-digit numbers', problems: 10, rods: 7, spec: { kind: 'addsub', digits: [2, 3], terms: 4, subtractChance: 0.4, allowed: ['direct'] } },
     ],
   },
+  {
+    id: 'five-complements',
+    number: 3,
+    title: 'Five-complements',
+    summary: 'Adding or taking away when the earth beads run out, using the heaven bead.',
+    learn: [
+      {
+        type: 'text',
+        paragraphs: [
+          'Try adding 4 to a rod showing 3. You need four more earth beads, but only one is free. The fix is to add 5 with the heaven bead and take back the 1 you added too many: **+4 = +5 −1**.',
+          'The pairs that make 5 are called **five-complements** (or "friends of 5"): 1 and 4, 2 and 3. To add a number you can\'t add directly, add 5 and subtract its partner:',
+          '**+1 = +5 −4**, **+2 = +5 −3**, **+3 = +5 −2**, **+4 = +5 −1**.',
+          'Subtraction mirrors it. Taking 3 from a rod showing 6 needs three earth beads but only one is up, so take away the heaven bead and give back the partner: **−3 = −5 +2**. In full: **−1 = −5 +4**, **−2 = −5 +3**, **−3 = −5 +2**, **−4 = −5 +1**.',
+          'You only use a complement when the direct move is impossible. If you can push the beads directly, do that.',
+          'On a physical soroban the two halves are one pinching motion: when adding, the index finger brings the heaven bead down while the same hand clears the extra earth beads. Don\'t do it as two separate thoughts. The goal is to see "+4 on a 3" and move straight to 7.',
+        ],
+      },
+      { type: 'demo', title: '3 + 4 − 2', terms: [3, 4, -2], rods: 5 },
+      { type: 'demo', title: '6 − 3 + 1', terms: [6, -3, 1], rods: 5 },
+      { type: 'demo', title: '34 + 23 − 41', terms: [34, 23, -41], rods: 5 },
+    ],
+    practice: [
+      { id: 'five-add-1', title: 'Add with five-complements, 1 digit', problems: 10, rods: 5, spec: { kind: 'addsub', digits: [1, 1], terms: 2, subtractChance: 0, allowed: ['direct', 'five'], require: ['five'] } },
+      { id: 'five-sub-1', title: 'Subtract with five-complements, 1 digit', problems: 10, rods: 5, spec: { kind: 'addsub', digits: [1, 1], terms: 2, subtractChance: 1, allowed: ['direct', 'five'], require: ['five'] } },
+      { id: 'five-mix-1', title: 'Mixed chains, four 1-digit numbers', problems: 10, rods: 5, spec: { kind: 'addsub', digits: [1, 1], terms: 4, subtractChance: 0.5, allowed: ['direct', 'five'], require: ['five'] } },
+      { id: 'five-mix-2', title: 'Mixed chains, three 2-digit numbers', problems: 10, rods: 7, spec: { kind: 'addsub', digits: [2, 2], terms: 3, subtractChance: 0.4, allowed: ['direct', 'five'], require: ['five'] } },
+      { id: 'five-mix-3', title: 'Mixed chains, four 2 to 3-digit numbers', problems: 10, rods: 7, spec: { kind: 'addsub', digits: [2, 3], terms: 4, subtractChance: 0.4, allowed: ['direct', 'five'], require: ['five'] } },
+    ],
+  },
 ];

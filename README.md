@@ -31,4 +31,4 @@ Answers are currently checked by final value only. The frame logs every bead mov
 
 ## Status
 
-Levels 0 to 3 (anatomy, setting and reading numbers, direct addition and subtraction, five-complements). Ten-complements, multiplication and division are next. Free play includes a suanpan frame to show the model handles it; lessons are soroban only.
+Levels 0 to 4 (anatomy, setting and reading numbers, direct addition and subtraction, five-complements, ten-complements). Combined five/ten complements, multiplication and division are next. Free play includes a suanpan frame to show the model handles it; lessons are soroban only.

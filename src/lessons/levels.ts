@@ -113,4 +113,34 @@ export const LEVELS: Level[] = [
       { id: 'five-mix-3', title: 'Mixed chains, four 2 to 3-digit numbers', problems: 10, rods: 7, spec: { kind: 'addsub', digits: [2, 3], terms: 4, subtractChance: 0.4, allowed: ['direct', 'five'], require: ['five'] } },
     ],
   },
+  {
+    id: 'ten-complements',
+    number: 4,
+    title: 'Ten-complements',
+    summary: 'Carrying to and borrowing from the next rod.',
+    learn: [
+      {
+        type: 'text',
+        paragraphs: [
+          'Adding 5 to a rod showing 8 would give 13, which no rod can hold. So add 10 on the rod to the left, and take back the 5 you added too many here: **+5 = −5 +10**.',
+          'The pairs that make 10 are the **ten-complements**: 1 and 9, 2 and 8, 3 and 7, 4 and 6, 5 and 5. To add a digit that won\'t fit, subtract its partner on this rod and add 1 to the rod on the left:',
+          '**+9 = −1 +10**, **+8 = −2 +10**, **+7 = −3 +10**, **+6 = −4 +10**, **+5 = −5 +10**, and so on down to **+1 = −9 +10**.',
+          'Subtraction mirrors it. Taking 5 from a rod showing 2 isn\'t possible, so **borrow** 1 from the rod on the left (that\'s −10) and give back the partner here: **−5 = −10 +5**. In general **−d = −10 +(10−d)**.',
+          'This app does additions as "complement off this rod, then carry" and subtractions as "borrow, then complement on this rod", which is the common teaching order. Some teachers do the carry first; either gives the same result, and practice only checks the answer.',
+          'If the rod on the left shows 9, the carry ripples: adding 1 to 9 is itself a ten-complement (−9 here, +1 further left). Borrowing from a 0 ripples the same way. Take ripples one rod at a time.',
+          'In this level the move on the current rod is always direct. When that move itself needs a five-complement (like +6 on a rod showing 5), that\'s level 5.',
+        ],
+      },
+      { type: 'demo', title: '8 + 5', terms: [8, 5], rods: 5 },
+      { type: 'demo', title: '12 − 5', terms: [12, -5], rods: 5 },
+      { type: 'demo', title: '98 + 4 − 3 (ripples)', terms: [98, 4, -3], rods: 5 },
+    ],
+    practice: [
+      { id: 'ten-add-1', title: 'Add with carrying, 1 digit', problems: 10, rods: 5, spec: { kind: 'addsub', digits: [1, 1], terms: 2, subtractChance: 0, allowed: ['direct', 'five', 'ten'], require: ['ten'] } },
+      { id: 'ten-sub-1', title: 'Subtract with borrowing, 1 to 2 digits', problems: 10, rods: 5, spec: { kind: 'addsub', digits: [1, 2], terms: 2, subtractChance: 1, allowed: ['direct', 'five', 'ten'], require: ['ten'] } },
+      { id: 'ten-mix-1', title: 'Mixed chains, four 1 to 2-digit numbers', problems: 10, rods: 5, spec: { kind: 'addsub', digits: [1, 2], terms: 4, subtractChance: 0.4, allowed: ['direct', 'five', 'ten'], require: ['ten'] } },
+      { id: 'ten-mix-2', title: 'Mixed chains, four 2-digit numbers', problems: 10, rods: 7, spec: { kind: 'addsub', digits: [2, 2], terms: 4, subtractChance: 0.4, allowed: ['direct', 'five', 'ten'], require: ['ten'] } },
+      { id: 'ten-mix-3', title: 'Mixed chains, five 2 to 3-digit numbers', problems: 10, rods: 9, spec: { kind: 'addsub', digits: [2, 3], terms: 5, subtractChance: 0.4, allowed: ['direct', 'five', 'ten'], require: ['ten'] } },
+    ],
+  },
 ];

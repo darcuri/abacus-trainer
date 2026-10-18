@@ -143,4 +143,32 @@ export const LEVELS: Level[] = [
       { id: 'ten-mix-3', title: 'Mixed chains, five 2 to 3-digit numbers', problems: 10, rods: 9, spec: { kind: 'addsub', digits: [2, 3], terms: 5, subtractChance: 0.4, allowed: ['direct', 'five', 'ten'], require: ['ten'] } },
     ],
   },
+  {
+    id: 'combined-complements',
+    number: 5,
+    title: 'Combined five and ten complements',
+    summary: 'Ten-complements whose own move needs a five-complement.',
+    learn: [
+      {
+        type: 'text',
+        paragraphs: [
+          'Add 6 to a rod showing 5. It overflows, so it\'s a ten-complement: **+6 = −4 +10**. But taking 4 off a rod showing 5 isn\'t direct either, because no earth beads are up. So the −4 is itself done with a five-complement, **−4 = −5 +1**. Put together: **+6 = −5 +1 +10**.',
+          'Nothing new is being learned here: it is level 4\'s ten-complement with level 3\'s five-complement inside it. The hard part is doing both without losing track, so practise until the whole move is one motion.',
+          'For addition it happens when the heaven bead is down and the earth beads can\'t cover the complement: **+6** on 5, 6, 7 or 8; **+7** on 5, 6 or 7; **+8** on 5 or 6; **+9** on 5.',
+          'Subtraction mirrors it: **−d = −10 +(10−d)**, where the +(10−d) needs the heaven bead. For example **−8** on a 3: borrow 1, then +2 onto 3 is **+5 −3**. It happens for **−6** on 1 to 4, **−7** on 2 to 4, **−8** on 3 or 4, and **−9** on 4.',
+          'The last practice set mixes every technique from levels 2 to 5, like real soroban list problems.',
+        ],
+      },
+      { type: 'demo', title: '5 + 6', terms: [5, 6], rods: 5 },
+      { type: 'demo', title: '13 − 8', terms: [13, -8], rods: 5 },
+      { type: 'demo', title: '56 + 67', terms: [56, 67], rods: 5 },
+    ],
+    practice: [
+      { id: 'combo-add-1', title: 'Add, 1 digit', problems: 10, rods: 5, spec: { kind: 'addsub', digits: [1, 1], terms: 2, subtractChance: 0, allowed: ['direct', 'five', 'ten', 'fiveTen'], require: ['fiveTen'] } },
+      { id: 'combo-sub-1', title: 'Subtract, 1 to 2 digits', problems: 10, rods: 5, spec: { kind: 'addsub', digits: [1, 2], terms: 2, subtractChance: 1, allowed: ['direct', 'five', 'ten', 'fiveTen'], require: ['fiveTen'] } },
+      { id: 'combo-mix-1', title: 'Mixed chains, four 1 to 2-digit numbers', problems: 10, rods: 5, spec: { kind: 'addsub', digits: [1, 2], terms: 4, subtractChance: 0.4, allowed: ['direct', 'five', 'ten', 'fiveTen'], require: ['fiveTen'] } },
+      { id: 'combo-mix-2', title: 'Mixed chains, five 2 to 3-digit numbers', problems: 10, rods: 9, spec: { kind: 'addsub', digits: [2, 3], terms: 5, subtractChance: 0.4, allowed: ['direct', 'five', 'ten', 'fiveTen'], require: ['fiveTen'] } },
+      { id: 'addsub-review', title: 'Review: five 2 to 4-digit numbers, any technique', problems: 10, rods: 11, spec: { kind: 'addsub', digits: [2, 4], terms: 5, subtractChance: 0.4, allowed: ['direct', 'five', 'ten', 'fiveTen'] } },
+    ],
+  },
 ];

@@ -171,4 +171,31 @@ export const LEVELS: Level[] = [
       { id: 'addsub-review', title: 'Review: five 2 to 4-digit numbers, any technique', problems: 10, rods: 11, spec: { kind: 'addsub', digits: [2, 4], terms: 5, subtractChance: 0.4, allowed: ['direct', 'five', 'ten', 'fiveTen'] } },
     ],
   },
+  {
+    id: 'chains',
+    number: 6,
+    title: 'Long chains',
+    summary: 'Lists of up to ten numbers, then against the clock.',
+    learn: [
+      {
+        type: 'text',
+        paragraphs: [
+          'Every add/sub technique is now in place. This level is about stamina and speed: soroban practice is traditionally done as **lists** of numbers added and subtracted in a row, and long lists are where small slips and lost places show up.',
+          '**Keep your eyes on the list, not the frame.** Read the next number while your fingers finish the current one. Glancing back and forth between the list and the beads is the main thing that slows people down.',
+          '**Don\'t check as you go.** Trust each move and keep going; checking every step doubles the time and breaks your rhythm. Check at the end by doing the list again.',
+          '**Say the number, not the technique.** By now "+7 on a 6" should be a single motion, not "ten-complement, minus 3, carry". If you find yourself naming techniques, go back to the level that covers it for a few rounds.',
+          'The list on the left crosses off each number when the frame matches the running total, so you can see where you are. The timed sets show a clock: an answer over the target still counts as correct, but not toward mastery.',
+        ],
+      },
+      { type: 'demo', title: '47 + 38 − 25 + 64 − 19', terms: [47, 38, -25, 64, -19], rods: 5 },
+    ],
+    practice: [
+      { id: 'chain-8x2', title: 'Eight 2-digit numbers', problems: 5, rods: 7, spec: { kind: 'addsub', digits: [2, 2], terms: 8, subtractChance: 0.4, allowed: ['direct', 'five', 'ten', 'fiveTen'] } },
+      { id: 'chain-10x2', title: 'Ten 2-digit numbers', problems: 5, rods: 7, spec: { kind: 'addsub', digits: [2, 2], terms: 10, subtractChance: 0.4, allowed: ['direct', 'five', 'ten', 'fiveTen'] } },
+      { id: 'chain-10x3', title: 'Ten 3-digit numbers', problems: 5, rods: 9, spec: { kind: 'addsub', digits: [3, 3], terms: 10, subtractChance: 0.4, allowed: ['direct', 'five', 'ten', 'fiveTen'] } },
+      { id: 'timed-10x2', title: 'Timed: ten 2-digit numbers in 90s', problems: 5, rods: 7, targetSec: 90, spec: { kind: 'addsub', digits: [2, 2], terms: 10, subtractChance: 0.4, allowed: ['direct', 'five', 'ten', 'fiveTen'] } },
+      { id: 'timed-10x3', title: 'Timed: ten 3-digit numbers in 150s', problems: 5, rods: 9, targetSec: 150, spec: { kind: 'addsub', digits: [3, 3], terms: 10, subtractChance: 0.4, allowed: ['direct', 'five', 'ten', 'fiveTen'] } },
+      { id: 'timed-5x4', title: 'Timed: five 4-digit numbers in 90s', problems: 5, rods: 11, targetSec: 90, spec: { kind: 'addsub', digits: [4, 4], terms: 5, subtractChance: 0.4, allowed: ['direct', 'five', 'ten', 'fiveTen'] } },
+    ],
+  },
 ];

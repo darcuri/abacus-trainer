@@ -39,7 +39,7 @@ function makeProblem(set: PracticeSet, rng: Rng): Problem {
   }
 }
 
-type Feedback = { ok: boolean; expected: string } | null;
+type Feedback = { ok: boolean; slow: boolean; expected: string } | null;
 
 export function Practice(props: { set: PracticeSet; progress: Progress; onProgress: (p: Progress) => void; onExit: () => void }): JSX.Element {
   const { set } = props;
@@ -91,8 +91,10 @@ export function Practice(props: { set: PracticeSet; progress: Progress; onProgre
       ok = valueOf(spec, ab.state) === problem.answer;
       expected = problem.answer.toLocaleString();
     }
-    setFeedback({ ok, expected });
-    setAttempts((a) => [...a, { ok, ms: Math.round(performance.now() - started.current), hinted: hinted || undefined }]);
+    const ms = Math.round(performance.now() - started.current);
+    const slow = set.targetSec !== undefined && ms > set.targetSec * 1000;
+    setFeedback({ ok, slow, expected });
+    setAttempts((a) => [...a, { ok, ms, hinted: hinted || undefined, slow: slow || undefined }]);
   }
 
   function next() {
@@ -147,7 +149,9 @@ export function Practice(props: { set: PracticeSet; progress: Progress; onProgre
         </p>
         <p class="muted">
           Last {overall.attempts} attempts: {Math.round(overall.accuracy * 100)}% clean.
-          {overall.mastered ? ' Mastered.' : ' Mastery is 90% clean over the last 20, without hints.'}
+          {overall.mastered
+            ? ' Mastered.'
+            : ` Mastery is 90% clean over the last 20, without hints${set.targetSec ? ` and within ${set.targetSec}s each` : ''}.`}
         </p>
         <div class="controls">
           <button onClick={props.onExit}>Back to level</button>
@@ -172,6 +176,7 @@ export function Practice(props: { set: PracticeSet; progress: Progress; onProgre
       <div class="practice-head">
         <strong>{set.title}</strong>
         <span class="muted">
+          {set.targetSec !== undefined && <Timer key={index} startedAt={started.current} targetSec={set.targetSec} stopped={!!feedback} />}
           {index + 1} / {set.problems}
         </span>
       </div>
@@ -202,28 +207,34 @@ export function Practice(props: { set: PracticeSet; progress: Progress; onProgre
       )}
 
       {problem.kind === 'addsub' && (
-        <>
+        <div class="addsub-layout">
           <TermList terms={problem.terms} current={reached + 1} doneThrough={reached} />
-          <Abacus
-            spec={spec}
-            state={ab.state}
-            onMove={feedback ? undefined : ab.move}
-            ghost={showHint ? problem.checkpoints[Math.min(reached + 1, problem.checkpoints.length - 1)] : undefined}
-            showValues={!!feedback}
-          />
-          {showHint && !feedback && (
-            <ul class="hint">
-              {problem.hints[Math.min(reached + 1, problem.hints.length - 1)].map((h, k) => (
-                <li key={k}>{h}</li>
-              ))}
-            </ul>
-          )}
-        </>
+          <div class="addsub-board">
+            <Abacus
+              spec={spec}
+              state={ab.state}
+              onMove={feedback ? undefined : ab.move}
+              ghost={showHint ? problem.checkpoints[Math.min(reached + 1, problem.checkpoints.length - 1)] : undefined}
+              showValues={!!feedback}
+            />
+            {showHint && !feedback && (
+              <ul class="hint">
+                {problem.hints[Math.min(reached + 1, problem.hints.length - 1)].map((h, k) => (
+                  <li key={k}>{h}</li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </div>
       )}
 
       {feedback ? (
-        <div class={`feedback ${feedback.ok ? 'ok' : 'bad'}`}>
-          {feedback.ok ? 'Correct.' : `Not quite. The answer is ${feedback.expected}.`}
+        <div class={`feedback ${!feedback.ok ? 'bad' : feedback.slow ? 'warn' : 'ok'}`}>
+          {!feedback.ok
+            ? `Not quite. The answer is ${feedback.expected}.`
+            : feedback.slow
+              ? `Correct, but over the ${set.targetSec}s target.`
+              : 'Correct.'}
         </div>
       ) : null}
 
@@ -247,6 +258,22 @@ export function Practice(props: { set: PracticeSet; progress: Progress; onProgre
         <Demo block={{ type: 'demo', title: 'worked solution', terms: problem.terms, rods: spec.rods }} />
       )}
     </div>
+  );
+}
+
+/** Elapsed time against the target; freezes once the answer is checked. */
+function Timer({ startedAt, targetSec, stopped }: { startedAt: number; targetSec: number; stopped: boolean }): JSX.Element {
+  const [now, setNow] = useState(() => performance.now());
+  useEffect(() => {
+    if (stopped) return;
+    const id = setInterval(() => setNow(performance.now()), 250);
+    return () => clearInterval(id);
+  }, [stopped]);
+  const sec = Math.max(0, (now - startedAt) / 1000);
+  return (
+    <span class={`timer ${sec > targetSec ? 'timer-over' : ''}`}>
+      {sec.toFixed(0)}s / {targetSec}s
+    </span>
   );
 }
 

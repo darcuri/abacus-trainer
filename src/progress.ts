@@ -10,6 +10,8 @@ export interface Attempt {
   ms: number;
   /** Hints were used, so the attempt doesn't count toward mastery. */
   hinted?: boolean;
+  /** Over the set's time target, so the attempt doesn't count toward mastery. */
+  slow?: boolean;
 }
 
 export interface Progress {
@@ -53,7 +55,7 @@ export function recordAttempts(p: Progress, setId: string, attempts: Attempt[]):
 }
 
 export function summarize(attempts: readonly Attempt[] = []): SetSummary {
-  const clean = attempts.filter((a) => a.ok && !a.hinted);
+  const clean = attempts.filter((a) => a.ok && !a.hinted && !a.slow);
   const times = attempts.filter((a) => a.ok).map((a) => a.ms).sort((a, b) => a - b);
   const accuracy = attempts.length ? clean.length / attempts.length : 0;
   return {

@@ -41,6 +41,8 @@ export interface PracticeSet {
   title: string;
   problems: number;
   rods?: number;
+  /** Per-problem time target. A correct answer over it counts as correct but not toward mastery. */
+  targetSec?: number;
   spec: PracticeKind;
 }
 
